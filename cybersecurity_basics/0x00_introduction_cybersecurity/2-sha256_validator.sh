@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "$2 $1" | sha256sum -c -
+echo "%s  %s\n" "$2" "$1" | sha256sum -c -
