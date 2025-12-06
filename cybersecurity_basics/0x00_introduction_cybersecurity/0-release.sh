@@ -1,2 +1,2 @@
 #!/bin/bash 
-lsb_release -is 
+lsb_relri,s 
