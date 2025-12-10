@@ -1,2 +1,2 @@
 #!/bin/bash
-bash -c "iptables -P INPUT DROP; iptables -A INPUT -p tcp --dport 80 -j ACCEPT; echo Rules updated; ip6tables -P INPUT DROP; ip6tables -A INPUT -p tcp --dport 80 -j ACCEPT; echo Rules updated \(v6\)"
+sudo ufw --force reset > /dev/null 2>&1 && sudo ufw default deny incoming > /dev/null 2>&1 && sudo ufw default allow outgoing > /dev/null 2>&1 && sudo ufw allow 80/tcp && sudo ufw --force enable > /dev/null 2>&1
