@@ -1,3 +1,2 @@
 #!/bin/bash
-nslookup $1
-
+sudo nslookup -type=A "$1"
