@@ -1,20 +1,2 @@
 #!/bin/bash
-
-whois "$1" | awk -F': ' '
-/^(Registrant|Admin|Tech)/ {
-    key=$1; value=$2;
-
-    # Add space after Street values
-    if (key ~ /Street$/) value=value" ";
-
-    # Trim value
-    gsub(/^[ \t]+|[ \t]+$/, "", value);
-
-    # KEEP “Phone Ext:” and “Fax Ext:” EXACT
-    if (key !~ /Ext:$/) gsub(/ /, "$", key);
-
-    gsub(/ /, "$", value);
-
-    print key "," value
-}
-' > "$1.csv"
+whois $1 | awk -F': ' '/^(Registrant|Admin|Tech)/ {if ($1 ~ /Street/) $2=$2" "; gsub(/^[ \t]+|[ \t]+$/, "", $2); gsub(/ /,"$", $1); gsub(/ /,"$", $2); print $1 "," $2}' > "$1.csv"
