@@ -1,2 +1,2 @@
 #!/bin/bash
-subfinder -d $1 -silent | while read host; do echo "$host,$(dig +short $host | head -n1)"; done > "$1.txt"
+subfinder -d $1 -silent | tee /tmp/subs.tmp | xargs -I{} sh -c 'echo "{},$(dig +short {} | head -n1)"' > $1.txt
