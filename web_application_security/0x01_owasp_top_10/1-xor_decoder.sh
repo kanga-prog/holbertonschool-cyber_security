@@ -1,23 +1,26 @@
 #!/bin/bash
+#
+# XOR WebSphere decoder
+#
 
-# Check argument
-if [ -z "$1" ]
+if [ "$#" -ne 1 ]
 then
-  exit 1
+    exit 0
 fi
 
-# Remove {xor}
-encoded=$(echo "$1" | sed 's/{xor}//')
+encoded=$(printf "%s" "$1" | sed 's/{xor}//')
+decoded=$(printf "%s" "$encoded" | base64 -d)
 
-# Base64 decode
-decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
-
-key=95
+key="_"
+key_len=${#key}
+i=0
 result=""
 
 for byte in $(printf "%s" "$decoded" | od -An -tu1)
 do
-  result="$result$(printf "\\$(printf '%03o' $((byte ^ key)))")"
+    k=$(printf "%d" "'${key:$((i % key_len)):1}")
+    result="$result$(printf "\\$(printf '%03o' $((byte ^ k)))")"
+    i=$((i + 1))
 done
 
 printf "%s\n" "$result"
