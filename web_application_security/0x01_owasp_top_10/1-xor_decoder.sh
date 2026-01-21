@@ -1,21 +1,19 @@
 #!/bin/bash
-#
-# XOR WebSphere decoder
-#
 
-key="WebSphere"
+# Check if the argument is provided
+if [ -z "$1" ]; then
+  echo "Usage: ./1-xor_decoder.sh {xor}encoded_string"
+  exit 1
+fi
 
-input=$(echo "$1" | sed 's/^{xor}//')
-decoded=$(echo "$input" | base64 -d)
+# Remove the {xor} prefix
+encoded=$(echo "$1" | sed 's/{xor}//')
 
-i=0
-len=${#key}
-result=""
+# Base64 decode the input
+decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
 
-for c in $(echo "$decoded" | od -An -tu1); do
-    k=$(printf "%d" "'${key:$((i % len)):1}")
-    result="$result$(printf "\\$(printf '%03o' $((c ^ k)))")"
-    i=$((i + 1))
-done
-
-printf "%s\n" "$result"
+# Check if base64 decoding succeeded
+if [ $? -ne 0 ]; then
+  echo "Error: Invalid Base64 input."
+  exit 1
+fi
