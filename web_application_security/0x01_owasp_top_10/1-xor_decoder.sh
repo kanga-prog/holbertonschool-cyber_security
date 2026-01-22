@@ -1,24 +1,29 @@
 #!/bin/bash
 
-if [ -z "$1" ]
-then
-  exit 1
+# Vérifie si un argument est fourni
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 '<encoded_string>'"
+    exit 1
 fi
 
-key="WebSphere"
+# Supprime le préfixe {xor} de l'argument
+encoded_string="$1"
+encoded_string="${encoded_string#'{xor}'}"
 
-encoded=$(printf "%s" "$1" | sed 's/{xor}//')
-decoded=$(printf "%s" "$encoded" | base64 -d 2>/dev/null)
+# Déchiffre la chaîne en utilisant Python
+decoded_string=$(python3 -c "
+import sys
+from base64 import b64decode
 
-i=0
-len=${#key}
-result=""
+try:
+    encoded = sys.argv[1]
+    decoded = b64decode(encoded)
+    result = ''.join(chr(byte ^ 0x5f) for byte in decoded)
+    print(result)
+except Exception:
+    print('Error: Invalid input')
+    sys.exit(1)
+" "$encoded_string")
 
-for byte in $(printf "%s" "$decoded" | od -An -tu1 -v)
-do
-  k=$(printf "%d" "'${key:$((i % len)):1}")
-  result="$result$(printf "\\$(printf '%03o' $((byte ^ k)))")"
-  i=$((i + 1))
-done
-
-printf "%s\n" "$result"
+# Affiche le résultat
+echo "$decoded_string"
