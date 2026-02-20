@@ -1,2 +1,2 @@
 #!/bin/bash
-john --wordlist=/usr/share/wordlists/rockyou.txt --format=Raw-SHA256 $1
+john --wordlist=rockyou --format=sha256 "$1"
