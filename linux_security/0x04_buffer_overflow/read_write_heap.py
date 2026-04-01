@@ -51,12 +51,17 @@ def main():
     if len(sys.argv) != 4:
         usage()
 
-    pid_arg = sys.argv[1]
+    try:
+        pid = int(sys.argv[1])
+    except ValueError:
+        usage()
+
     search_string = sys.argv[2]
     replace_string = sys.argv[3]
 
-    if not pid_arg.isdigit():
-        usage()
+    if search_string == "" or replace_string == "":
+        print("Error: strings must not be empty")
+        sys.exit(1)
 
     try:
         search_bytes = search_string.encode("ascii")
@@ -66,14 +71,14 @@ def main():
         sys.exit(1)
 
     if len(replace_bytes) > len(search_bytes):
-        print("Error: replace_string must be shorter than or equal to search_string")
+        print(
+            "Error: replace_string must be shorter than "
+            "or equal to search_string"
+        )
         sys.exit(1)
-
-    pid = int(pid_arg)
 
     try:
         address = replace_in_heap(pid, search_bytes, replace_bytes)
-        print("SUCCESS!")
         print("Replaced at address 0x{:x}".format(address))
     except Exception as exc:
         print("Error: {}".format(exc))
@@ -82,4 +87,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
