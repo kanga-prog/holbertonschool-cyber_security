@@ -59,15 +59,15 @@ def replace_in_heap(pid, search_bytes, replace_bytes):
 
         write_addr = start + offset
         mem_file.seek(write_addr)
-        mem_file.write(
-            replace_bytes + b"\x00" * (len(search_bytes) - len(replace_bytes))
-        )
+        mem_file.write(replace_bytes + b"\x00")
 
     return write_addr
 
 
 def main():
     """Program entry point."""
+    attached = False
+
     if len(sys.argv) != 4:
         usage()
 
@@ -85,28 +85,26 @@ def main():
         print("Error: strings must be ASCII")
         sys.exit(1)
 
-    if len(replace_bytes) > len(search_bytes):
-        print("Error: replace_string must be shorter than or equal to search_string")
-        sys.exit(1)
-
     pid = int(pid_arg)
 
     try:
         ptrace(PTRACE_ATTACH, pid, 0, 0)
+        attached = True
         os.waitpid(pid, 0)
 
         address = replace_in_heap(pid, search_bytes, replace_bytes)
         print("Replaced at address 0x{:x}".format(address))
 
-        ptrace(PTRACE_DETACH, pid, 0, 0)
-
     except Exception as exc:
-        try:
-            ptrace(PTRACE_DETACH, pid, 0, 0)
-        except Exception:
-            pass
         print("Error: {}".format(exc))
         sys.exit(1)
+
+    finally:
+        if attached:
+            try:
+                ptrace(PTRACE_DETACH, pid, 0, 0)
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":
