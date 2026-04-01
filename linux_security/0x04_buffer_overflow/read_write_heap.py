@@ -58,8 +58,7 @@ def find_and_replace_in_heap(pid, search_string, replace_string):
 
             # Replace the string in the memory
             mem_file.seek(heap_start + offset)
-            # Write replace_string null-padded to length of search_string
-            mem_file.write(replace_string + b'\x00')
+            mem_file.write(replace_string.ljust(len(search_string), b'\x00'))
 
             print("SUCCESS!")
 
