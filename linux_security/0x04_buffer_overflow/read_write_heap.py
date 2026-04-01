@@ -1,33 +1,13 @@
 #!/usr/bin/python3
 """Find a string in the heap of a running process and replace it."""
 
-import ctypes
-import os
 import sys
-
-PTRACE_ATTACH = 16
-PTRACE_DETACH = 17
-LIBC = ctypes.CDLL("libc.so.6", use_errno=True)
 
 
 def usage():
     """Print usage message and exit with status code 1."""
     print("Usage: {} pid search_string replace_string".format(sys.argv[0]))
     sys.exit(1)
-
-
-def ptrace(request, pid, addr, data):
-    """Call ptrace and raise OSError on failure."""
-    result = LIBC.ptrace(
-        request,
-        pid,
-        ctypes.c_void_p(addr),
-        ctypes.c_void_p(data)
-    )
-    if result == -1:
-        err = ctypes.get_errno()
-        raise OSError(err, os.strerror(err))
-    return result
 
 
 def get_heap_range(pid):
@@ -71,12 +51,17 @@ def main():
     if len(sys.argv) != 4:
         usage()
 
-    pid_arg = sys.argv[1]
+    try:
+        pid = int(sys.argv[1])
+    except ValueError:
+        usage()
+
     search_string = sys.argv[2]
     replace_string = sys.argv[3]
 
-    if not pid_arg.isdigit():
-        usage()
+    if search_string == "" or replace_string == "":
+        print("Error: strings must not be empty")
+        sys.exit(1)
 
     try:
         search_bytes = search_string.encode("ascii")
@@ -86,25 +71,16 @@ def main():
         sys.exit(1)
 
     if len(replace_bytes) > len(search_bytes):
-        print("Error: replace_string must be shorter than or equal to search_string")
+        print(
+            "Error: replace_string must be shorter than "
+            "or equal to search_string"
+        )
         sys.exit(1)
 
-    pid = int(pid_arg)
-
     try:
-        ptrace(PTRACE_ATTACH, pid, 0, 0)
-        os.waitpid(pid, 0)
-
         address = replace_in_heap(pid, search_bytes, replace_bytes)
         print("Replaced at address 0x{:x}".format(address))
-
-        ptrace(PTRACE_DETACH, pid, 0, 0)
-
     except Exception as exc:
-        try:
-            ptrace(PTRACE_DETACH, pid, 0, 0)
-        except Exception:
-            pass
         print("Error: {}".format(exc))
         sys.exit(1)
 
