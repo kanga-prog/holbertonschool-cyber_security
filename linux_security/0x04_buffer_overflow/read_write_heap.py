@@ -1,74 +1,61 @@
-#!/usr/bin/env python3
-"""Diagnostic helper: validate a target PID and inspect its heap mapping safely."""
-import os
+#!/usr/bin/python3
+
+"""Documentation :
+Module docs.
+"""
+
 import sys
+import os
 
 
-def fail(msg: str, code: int = 1) -> None:
-    print(f"Error: {msg}", file=sys.stderr)
-    sys.exit(code)
-
-
-if len(sys.argv) != 4:
+def usage():
+    """Documentation :
+    usage function docs.
+    """
     print("Usage: read_write_heap.py pid search_string replace_string")
     sys.exit(1)
 
-try:
-    pid_ = int(sys.argv[1])
-except ValueError:
-    fail("PID must be an integer.")
+def main():
+    """Documentation :
+    main function docs.
+    """
+    if len(sys.argv) != 4:
+        usage()
 
-search = sys.argv[2].encode()
-replace = sys.argv[3].encode()
+    pid = int(sys.argv[1])
+    search_string = sys.argv[2].encode()
+    replace_string = sys.argv[3].encode()
 
-proc_dir = f"/proc/{pid_}"
-maps_path = f"{proc_dir}/maps"
-mem_path = f"{proc_dir}/mem"
+    mem_path = f"/proc/{pid}/mem"
+    maps_path = f"/proc/{pid}/maps"
 
-if not os.path.isdir(proc_dir):
-    fail(f"process {pid_} does not exist.")
+    try:
+        with open(maps_path, 'r') as maps_file:
+            for line in maps_file.readlines():
+                parts = line.split()
+                start = int(parts[0].split('-')[0], 16)
+                end = int(parts[0].split('-')[1], 16)
+                permissions = parts[1]
 
-if not os.path.exists(maps_path):
-    fail(f"{maps_path} does not exist.")
+                if 'heap' in line and 'rw-p' in permissions:
+                    with open(mem_path, 'r+b') as mem_file:
+                        mem_file.seek(start)
+                        data = mem_file.read(end - start)
 
-if not os.access(maps_path, os.R_OK):
-    fail(f"{maps_path} is not readable.")
+                        index = data.find(search_string)
+                        if index != -1:
+                            new_data = data[:index] + replace_string + \
+                                data[index + len(search_string):]
+                            mem_file.seek(start)
+                            mem_file.write(new_data)
+                            sys.exit(0)
 
-try:
-    with open(maps_path, "r", encoding="utf-8", errors="replace") as maps_file:
-        heap_line = next(
-            (line.strip() for line in maps_file if "[heap]" in line and "rw" in line),
-            None
-        )
-except PermissionError:
-    fail(f"permission denied while reading {maps_path}.")
-except OSError as e:
-    fail(f"unable to read {maps_path}: {e}")
+        print("Error: String not found in heap")
 
-if heap_line is None:
-    fail("no readable/writable heap region found.")
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
-try:
-    addr_range = heap_line.split()[0]
-    start_s, end_s = addr_range.split("-")
-    start = int(start_s, 16)
-    end = int(end_s, 16)
-except (IndexError, ValueError) as e:
-    fail(f"failed to parse heap mapping: {e}")
 
-print(f"PID           : {pid_}")
-print(f"Search string : {search!r}")
-print(f"Replace string: {replace!r}")
-print(f"Heap mapping  : {heap_line}")
-print(f"Heap start    : 0x{start:x}")
-print(f"Heap end      : 0x{end:x}")
-print(f"Heap size     : {end - start} bytes")
-
-if not os.path.exists(mem_path):
-    fail(f"{mem_path} does not exist.")
-
-if not os.access(mem_path, os.R_OK):
-    print(f"Warning: {mem_path} is not readable with current privileges.", file=sys.stderr)
-
-print("Validation OK: target process and heap mapping found.")
-print("Stopped before any memory read/write.")
+if __name__ == "__main__":
+    main()
