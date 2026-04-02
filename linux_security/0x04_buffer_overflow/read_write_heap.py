@@ -45,23 +45,27 @@ def get_heap_range(pid):
 
 
 def replace_in_heap(pid, search_bytes, replace_bytes):
-    """Search and replace a string in the heap of a process."""
+    """Search and replace all matching strings in the heap."""
     start, end = get_heap_range(pid)
     mem_path = "/proc/{}/mem".format(pid)
+    addresses = []
 
     with open(mem_path, "rb+") as mem_file:
         mem_file.seek(start)
         heap_data = mem_file.read(end - start)
 
         offset = heap_data.find(search_bytes)
-        if offset == -1:
-            raise ValueError("search_string not found")
+        while offset != -1:
+            write_addr = start + offset
+            mem_file.seek(write_addr)
+            mem_file.write(replace_bytes + b"\x00")
+            addresses.append(write_addr)
+            offset = heap_data.find(search_bytes, offset + 1)
 
-        write_addr = start + offset
-        mem_file.seek(write_addr)
-        mem_file.write(replace_bytes + b"\x00")
+    if not addresses:
+        raise ValueError("search_string not found")
 
-    return write_addr
+    return addresses
 
 
 def main():
@@ -92,8 +96,8 @@ def main():
         attached = True
         os.waitpid(pid, 0)
 
-        address = replace_in_heap(pid, search_bytes, replace_bytes)
-        print("Replaced at address 0x{:x}".format(address))
+        addresses = replace_in_heap(pid, search_bytes, replace_bytes)
+        print("Replaced {} occurrence(s)".format(len(addresses)))
 
     except Exception as exc:
         print("Error: {}".format(exc))
