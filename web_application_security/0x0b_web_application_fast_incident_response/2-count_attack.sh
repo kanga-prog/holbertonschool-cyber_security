@@ -1,14 +1,2 @@
 #!/bin/bash
-awk '
-{
-    count[$1]++
-}
-END {
-    max = 0
-    for (ip in count) {
-        if (count[ip] > max) {
-            max = count[ip]
-        }
-    }
-    print max
-}' $1
+awk '{print $1}' ${1:-logs.txt} | sort | uniq -c | sort -nr | head -n1 | awk '{print $1}'
