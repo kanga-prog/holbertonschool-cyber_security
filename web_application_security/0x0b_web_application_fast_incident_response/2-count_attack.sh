@@ -1,2 +1,14 @@
 #!/bin/bash
-awk '{print $1}' $1 | sort | uniq -c | sort -nr | head -n 1 | awk '{print $1}'
+awk '
+{
+    count[$1]++
+}
+END {
+    max = 0
+    for (ip in count) {
+        if (count[ip] > max) {
+            max = count[ip]
+        }
+    }
+    print max
+}' $1
