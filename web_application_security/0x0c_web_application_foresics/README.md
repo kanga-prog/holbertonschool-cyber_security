@@ -1,119 +1,173 @@
-Je vais t’aider à identifier pourquoi ton script n’affiche rien, puis je te donnerai la bonne façon d’utiliser auth.log et dmesg.
+web_application_security/0x0c_web_application_foresics.
 
-Thought for 45s
+# Web Application Forensics
 
-Le problème vient très probablement de la façon dont tu exécutes le script.
+## Description
+This project focuses on analyzing system and authentication logs to investigate a security incident on a Linux server.  
+The objective is to identify how attackers gained access, determine what accounts were compromised, count distinct attackers, review firewall mitigations, enumerate created user accounts, and propose future security improvements.
 
-Pourquoi tu n’as rien
+By examining `auth.log` and `dmesg`, we can reconstruct attacker activity and extract actionable information to improve system security.
 
-Dans les requirements, il y a ceci :
+## Learning Objectives
+At the end of this project, you should be able to:
 
-Ensure that $1 is used without quotes in your script
+- Analyze authentication logs to identify attack vectors
+- Determine the operating system version of a target machine
+- Identify compromised accounts
+- Count distinct attacker IP addresses
+- Detect firewall mitigation actions in logs
+- Extract created user accounts from logs
+- Draft an incident report with mitigation and monitoring recommendations
 
-Ça veut dire que ton script doit prendre un fichier en argument.
+## Requirements
+- Allowed editors: `vi`, `vim`, `emacs`
+- All scripts are tested on **Kali Linux**
+- All files must end with a new line
+- The first line of all files must be exactly:
 
-Donc si tu l’exécutes comme ça :
-
-./0-service.sh
-
-alors $1 est vide.
-
-Résultat :
-
-soit ton script ne lit rien,
-soit il attend une entrée,
-soit il termine sans affichage.
-Ce qu’il faut comprendre sur auth.log et dmesg
-
-Dans ce projet, les fichiers fournis sont :
-
-auth.log → logs d’authentification
-C’est ici qu’on voit généralement :
-sshd
-pam_unix
-Failed password
-Accepted password
-Invalid user
-dmesg → messages du noyau Linux
-C’est utile pour d’autres analyses, mais pas pour identifier ici le service d’accès utilisé par les attaquants dans ce task 0.
-
-Donc pour Attacker Service, le bon fichier à utiliser est surtout :
-
-auth.log
-Comment utiliser les fichiers
-
-Tu dois lancer ton script avec le fichier en argument :
-
-./0-service.sh auth.log
-
-et éventuellement pour tester l’autre :
-
-./0-service.sh dmesg
-
-Mais pour cette question, c’est auth.log qui est pertinent.
-
-Comment vérifier manuellement avant le script
-
-Fais déjà ceci :
-
-head auth.log
-
-ou :
-
-grep -i ssh auth.log | head
-
-ou encore :
-
-grep 'pam_unix' auth.log | head
-
-Tu verras normalement des lignes liées à :
-
-pam_unix(sshd:auth):
-pam_unix(sshd:session):
-Failed password
-Accepted password
-Invalid user
-
-Donc le service utilisé est bien :
-
-sshd
-
-Script correct pour ce task
-
-Voici un script simple, conforme à l’idée du sample, qui compte les éléments du log :
-
+```bash
 #!/bin/bash
-grep -oE '[[:alnum:]_().:-]+' $1 2>/dev/null | sort | uniq -c | sort -nr
-Pourquoi ce script marche
+A README.md file at the root of the project folder is mandatory
+You are not allowed to use:
+backticks
+&&
+||
+;
+Code must follow Betty style
+All files must be executable
+Ensure that $1 is used without quotes in your scripts
+Files Used in This Project
+auth.log — authentication and account activity logs
+dmesg — kernel boot and system information logs
+Project Structure
+web_application_security/0x0c_web_application_foresics/
+├── README.md
+├── auth.log
+├── dmesg
+├── 0-service.sh
+├── 1-operating.sh
+├── 2-accounts.sh
+├── 3-ips.sh
+├── 4-firewall.sh
+└── 5-users.sh
+Tasks
+0. Attacker Service
 
-Il fait ceci :
+Identify the service attackers used to gain access to the system.
 
-grep -oE ... $1 → extrait les mots/tokens du fichier donné en argument
-sort → trie
-uniq -c → compte
-sort -nr → affiche du plus fréquent au moins fréquent
+File concerned: auth.log
 
-Si tu l’exécutes avec :
+Expected finding: attackers used sshd
+
+Example:
 
 ./0-service.sh auth.log
+1. Operating System
 
-tu devrais obtenir quelque chose de très proche de :
+Determine the operating system version of the targeted system.
 
-34806 pam_unix(sshd:auth):
-20339 Failed
-14478 Invalid
-...
-Si tu veux exactement repérer le service
+File concerned: dmesg
 
-Tu peux aussi tester directement :
+Expected output example:
 
-grep -oE 'pam_unix\([^)]+\):' auth.log | sort | uniq -c | sort -nr
+./1-operating.sh dmesg
+[    0.000000] Linux version 2.6.24-26-server (buildd@crested) (gcc version 4.2.4 (Ubuntu 4.2.4-1ubuntu3)) #1 SMP Tue Dec 1 18:26:43 UTC 2009 (Ubuntu 2.6.24-26.64-server)
+2. Account Compromised
 
-Ça te donnera quelque chose comme :
+Determine the name of the compromised account.
 
-34806 pam_unix(sshd:auth):
-200 pam_unix(sshd:session):
+Tips:
 
-Et là, on voit clairement que le service est :
+Analyze the last 1000 lines of logs
+Check for multiple failed logins followed by a successful one
+Look for suspicious activity patterns
 
-sshd
+File concerned: auth.log
+
+Expected output:
+
+./2-accounts.sh auth.log
+root
+3. Sum Attack
+
+Count how many distinct attacker IP addresses successfully gained access to the system.
+
+Rule: each unique IP address is considered a different attacker
+
+File concerned: auth.log
+
+Expected output:
+
+./3-ips.sh auth.log
+18
+4. Mitigation Firewalls
+
+Count how many firewall rules were added after the incident.
+
+File concerned: auth.log
+
+Expected output:
+
+./4-firewall.sh auth.log
+6
+5. Users Accounts
+
+Identify the user accounts created on the target system.
+
+File concerned: auth.log
+
+Expected output:
+
+./5-users.sh auth.log
+Aphelios,Debian-exim,Fido,Jax,Nidalee,Senna,dhg,messagebus,mysql,packet,sshd
+6. Future Mitigations
+
+Write an incident report covering:
+
+Introduction
+Incident summary and impact
+Implementation plan
+Monitoring protocol
+
+This task is descriptive and does not require a shell script.
+
+Usage
+
+Make scripts executable:
+
+chmod +x 0-service.sh 1-operating.sh 2-accounts.sh 3-ips.sh 4-firewall.sh 5-users.sh
+
+Run each script with the appropriate file:
+
+./0-service.sh auth.log
+./1-operating.sh dmesg
+./2-accounts.sh auth.log
+./3-ips.sh auth.log
+./4-firewall.sh auth.log
+./5-users.sh auth.log
+Investigation Summary
+
+From the analysis performed:
+
+Attack service: sshd
+Operating system: Linux version 2.6.24-26-server
+Compromised account: root
+Distinct successful attacker IPs: 18
+Firewall rules added: 6
+Created user accounts: Aphelios, Debian-exim, Fido, Jax, Nidalee, Senna, dhg, messagebus, mysql, packet, sshd
+Security Recommendations
+
+Based on the investigation, the following mitigations are recommended:
+
+Disable direct root SSH login
+Enforce strong password policies
+Prefer SSH keys over password authentication
+Restrict SSH access to trusted IPs only
+Review and remove suspicious accounts
+Audit firewall rules regularly
+Upgrade outdated systems and patch vulnerabilities
+Enable continuous monitoring of authentication events
+Use tools such as Fail2ban for brute-force protection
+Author
+
+BRICE KANGA KOUAKOU
