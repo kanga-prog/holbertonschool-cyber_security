@@ -1,2 +1,2 @@
 #!/bin/bash
-grep -E 'iptables.*(^|[[:space:]])-(A|I)([[:space:]]|$)' $1 | wc -l
+grep -iE "iptables" auth.log | grep "A INPUT" | sort -u | wc -l
