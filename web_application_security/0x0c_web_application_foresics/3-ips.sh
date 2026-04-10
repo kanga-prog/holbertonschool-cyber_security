@@ -1,9 +1,2 @@
-#!/bin/bash
-grep -E 'Accepted (password|publickey) for root' $1 | awk '
-{
-	for (i = 1; i <= NF; i++)
-	{
-		if ($i == "from")
-			print $(i + 1)
-	}
-}' | sort -u | wc -l
+#!/bin/bash 
+grep "Accepted password for root" auth.log | grep -Eo '[0-9]{1,3}(\.[0-9]{1,3}){3}' | sort -u | wc -l
