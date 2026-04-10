@@ -1,2 +1,2 @@
 #!/bin/bash
-grep 'new user:' $1 | sed -E 's/.*name=([^,]+).*/\1/' | sort -u | paste -sd,
+grep -E "new user" auth.log | awk '{print $8}' | sed 's/name=//' | sed 's/,$//' | sort | uniq | paste -sd ","
