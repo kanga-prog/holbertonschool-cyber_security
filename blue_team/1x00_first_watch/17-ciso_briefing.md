@@ -1,16 +1,16 @@
 # CISO Board Briefing
 
-MedDefense has security tools in place, but they do not yet protect the hospital as one connected clinical environment. The organization can operate today, but it is exposed to a ransomware event or patient-data breach that could interrupt care.
+MedDefense can deliver care today, but its security is not strong enough for a hospital that depends on digital patient systems. The main risk is not one broken tool; it is that too many critical systems are connected without enough separation or early warning.
 
-The most dangerous gap is the flat internal network: once someone gets into one device, they can potentially reach servers, workstations, backups, and medical devices. In plain terms, one compromised laptop, vendor account, or medical device could become a hospital-wide incident affecting the electronic health record, imaging, billing, and patient monitoring.
+The most dangerous problem is that one infected computer could reach many other systems, including patient records, imaging, billing, backups, and connected medical devices. In real terms, one stolen password, unsafe laptop, or compromised device could turn into cancelled appointments, delayed care, exposed patient data, and days of emergency operations.
 
-1. First, divide the network into locked zones so clinical systems, medical devices, backups, and office computers cannot all reach each other. Estimated cost: $35,000. Timeline: phased start within one month, full rollout over several months.
+First, separate critical systems so office computers, medical devices, patient records, and backup storage cannot all reach each other. Estimated cost: $35,000. Timeline: start within one month, complete in phases over several months.
 
-2. Second, create centralized monitoring so we can see suspicious activity before systems fail. Estimated cost: $35,000. Timeline: first critical logs and alerts within one month, tuning over several months.
+Second, build an early-warning capability so suspicious activity is noticed before systems stop working. Estimated cost: $35,000. Timeline: first alerts within one month, improvement over several months.
 
-3. Third, make recovery reliable by adding isolated backups and testing restore procedures. Estimated cost: $25,000. Timeline: backup validation within one month, full recovery testing over several months.
+Third, make recovery dependable by keeping safe copies of critical data away from the main systems and testing that they can be restored. Estimated cost: $25,000. Timeline: validation within one month, full testing over several months.
 
-The $120,000 security budget is an investment in continuity of care. A comparable hospital ransomware incident cost about $5 million in recovery and lost revenue, before regulatory penalties and reputation damage.
+The $120,000 budget is an investment in keeping care available. One comparable hospital incident cost about $5 million in recovery and lost revenue, not including regulatory penalties or reputation damage.
 
-If the Board takes no action, MedDefense is accepting the risk of preventable clinical downtime, patient-data exposure, and a crisis response led by urgency instead of preparation.
+If the Board takes no action, MedDefense is accepting preventable downtime, patient-data exposure, and a crisis response built under pressure instead of preparation.
 
