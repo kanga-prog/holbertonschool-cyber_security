@@ -2,16 +2,16 @@
 
 ## Overview
 
-This document classifies eight anonymized intelligence reports using the six required threat actor categories:
+This document classifies eight anonymized intelligence reports using the required six threat actor categories:
 
-* Nation-state
-* Organized crime
-* Hacktivist
-* Insider threat
-* Unskilled attacker
-* Shadow IT
+- Nation-state
+- Organized crime
+- Hacktivist
+- Insider threat
+- Unskilled attacker
+- Shadow IT
 
-Each report is classified based on observable behavior: what the actor did, how they operated, what they targeted, and what motivation is most strongly supported by the evidence.
+Each classification is based on observable behavior: access method, target selection, resources, sophistication, motivation, and confidence level.
 
 ---
 
@@ -19,20 +19,20 @@ Each report is classified based on observable behavior: what the actor did, how 
 
 **Actor Type:** Nation-state
 
-**Internal/External:** External
-The attackers compromised the company through a zero-day vulnerability in the VPN appliance. This indicates an external intrusion rather than misuse of legitimate internal access.
+**Internal/External:** External  
+The actor entered through a zero-day vulnerability in the company's VPN appliance. This indicates an external intrusion rather than activity from a legitimate internal user.
 
-**Resources:** High
-The actor used a zero-day vulnerability, a custom-built remote access tool, encrypted DNS communications, and a stolen code-signing certificate. These capabilities require significant resources, infrastructure, and operational maturity.
+**Resources:** High  
+The actor used a zero-day vulnerability, a custom-built remote access tool, encrypted DNS communication, and a stolen code-signing certificate. These capabilities require strong funding, infrastructure, and technical expertise.
 
-**Sophistication:** High
-The attack lasted 14 months and involved stealthy, systematic copying of proprietary drug trial data. Custom malware, encrypted DNS command-and-control, code-signing abuse, and long dwell time are strong indicators of advanced tradecraft.
+**Sophistication:** High  
+The operation lasted 14 months and involved stealthy, systematic theft of proprietary drug trial data. Custom malware, encrypted DNS command-and-control, code-signing abuse, and long dwell time show advanced tradecraft.
 
-**Primary Motivation:** Espionage
-The stolen Phase III clinical trial data was highly valuable strategic intellectual property. The objective appears to be intelligence collection and theft of proprietary research rather than immediate extortion or disruption.
+**Primary Motivation:** Espionage  
+The stolen Phase III clinical trial data was valuable intellectual property worth an estimated $2 billion in future revenue. The objective was strategic information theft rather than disruption or immediate payment.
 
-**Confidence Level:** High
-Confidence is high because the combination of zero-day exploitation, custom tooling, stealth, long-term persistence, and theft of high-value pharmaceutical research strongly matches a nation-state or advanced persistent threat profile.
+**Confidence Level:** High  
+Confidence is high because zero-day exploitation, custom tooling, stealthy persistence, and theft of pharmaceutical research strongly match a nation-state or advanced persistent threat profile.
 
 ---
 
@@ -40,41 +40,41 @@ Confidence is high because the combination of zero-day exploitation, custom tool
 
 **Actor Type:** Organized crime
 
-**Internal/External:** External
-The attack began with an external email campaign against the hospital billing department and later escalated into ransomware deployment and extortion.
+**Internal/External:** External  
+The attack began with an external phishing email campaign against the hospital billing department and ended with ransomware deployment.
 
-**Resources:** Medium
-The attackers used a known Adobe Reader vulnerability and a commercially available RAT, which suggests access to criminal tooling but not necessarily nation-state-level resources. The later ransomware deployment and data exfiltration show organized criminal capability.
+**Resources:** Medium  
+The attackers used a known Adobe Reader vulnerability and a commercially available RAT. This suggests access to criminal tooling, ransomware infrastructure, and extortion processes, but not nation-state-level resources.
 
-**Sophistication:** Medium to High
-The attackers successfully phished users, exploited a known vulnerability, maintained access for three weeks, exfiltrated 15GB of patient records, and deployed ransomware across the network. This is more sophisticated than a simple commodity attack, but it relies on known vulnerabilities and available tools.
+**Sophistication:** Medium to High  
+The attackers successfully phished users, exploited a known vulnerability, maintained access for three weeks, exfiltrated 15GB of patient records, and deployed ransomware across the hospital network.
 
-**Primary Motivation:** Financial gain
-The ransom demand of 40 Bitcoin and the threat to publish patient data show a financially motivated double-extortion operation. Blackmail is part of the method, but financial gain is the primary motivation.
+**Primary Motivation:** Financial gain  
+The demand for 40 Bitcoin and the threat to publish patient records show a financially motivated ransomware and double-extortion operation.
 
-**Confidence Level:** High
-Confidence is high because ransomware deployment, data theft, cryptocurrency demand, and a publication threat are classic organized crime indicators.
+**Confidence Level:** High  
+Confidence is high because ransomware deployment, patient-data exfiltration, cryptocurrency payment demand, and publication threats are classic organized crime indicators.
 
 ---
 
 ## Report C
 
-**Actor Type:** Hacktivist**
+**Actor Type:** Hacktivist
 
-**Internal/External:** External
-The attackers exploited a SQL injection vulnerability in the public website’s content management system. They did not use internal privileges or attempt to move into internal hospital systems.
+**Internal/External:** External  
+The attackers exploited a SQL injection vulnerability in the hospital's public website. They did not use internal access and did not attempt to move beyond the public web server.
 
-**Resources:** Low to Medium
-The actor used a web application vulnerability and performed a defacement. This does not require major funding, but it does require some technical ability.
+**Resources:** Low to Medium  
+The actor used a web application vulnerability and performed a public website defacement. This requires some technical ability but not major funding or advanced infrastructure.
 
-**Sophistication:** Low to Medium
-The attack was limited to website defacement through SQL injection. The attackers did not attempt lateral movement, persistence, ransomware deployment, or patient data theft.
+**Sophistication:** Low to Medium  
+The attack was limited to website defacement. There was no patient-data access, lateral movement, persistence, ransomware deployment, or internal network compromise.
 
-**Primary Motivation:** Philosophical or political beliefs
-The defacement criticized the hospital’s decision to close a free community health clinic and included the logo of an activist group. The goal was protest and public messaging.
+**Primary Motivation:** Philosophical or political beliefs  
+The defacement criticized the hospital's decision to close a free community health clinic and included the logo of an activist group. The goal was protest and public messaging.
 
-**Confidence Level:** High
-Confidence is high because the attack included a political/social message, activist branding, and no financial or espionage objective.
+**Confidence Level:** High  
+Confidence is high because the attack included an activist message, a known activist logo, and no evidence of financial gain, espionage, or internal sabotage.
 
 ---
 
@@ -82,20 +82,20 @@ Confidence is high because the attack included a political/social message, activ
 
 **Actor Type:** Insider threat
 
-**Internal/External:** Internal
-The attacker was a former IT administrator who had legitimate privileged knowledge and created a secondary VPN account before termination. The activity came from the administrator’s home IP address.
+**Internal/External:** Internal  
+The actor was a terminated IT administrator who had privileged knowledge of the environment. The unauthorized VPN account was created before termination and later used from the administrator's home IP address.
 
-**Resources:** Low to Medium
-The actor did not need expensive infrastructure or advanced external tooling. Their main resource was privileged internal knowledge, administrative access, and an unauthorized secondary VPN account.
+**Resources:** Low to Medium  
+The actor did not need expensive tools or external infrastructure. Their main resources were privileged access, internal knowledge, and the ability to create a secondary VPN account.
 
-**Sophistication:** Medium
-The attacker created a hidden VPN account, disabled automated backups before termination, and later deleted production database tables. This required insider knowledge and planning, even if it did not involve advanced malware.
+**Sophistication:** Medium  
+The actor created a hidden VPN account, disabled automated backups before termination, and later deleted production database tables. This shows planning and insider knowledge.
 
-**Primary Motivation:** Revenge
-The destructive activity occurred two days after termination following a disciplinary hearing. The timing and sabotage strongly suggest retaliation.
+**Primary Motivation:** Revenge  
+The sabotage occurred two days after termination following a disciplinary hearing. The timing and destructive behavior strongly indicate retaliation.
 
-**Confidence Level:** High
-Confidence is high because attribution to the former administrator is supported by the home IP address, the hidden VPN account, the backup sabotage, and the timing after termination.
+**Confidence Level:** High  
+Confidence is high because the hidden VPN account, home IP address, backup sabotage, and termination timeline directly support an insider threat classification.
 
 ---
 
@@ -103,20 +103,20 @@ Confidence is high because attribution to the former administrator is supported 
 
 **Actor Type:** Unskilled attacker
 
-**Internal/External:** External
-The compromise came through automated exploitation of a known vulnerability in a remote management tool. The same wallet was linked to infections across more than 300 organizations, indicating broad external scanning rather than targeted access.
+**Internal/External:** External  
+The compromise came through automated exploitation of a known remote management tool vulnerability. The same wallet was linked to infections across more than 300 organizations, showing mass external exploitation.
 
-**Resources:** Low
-The attackers used a publicly available mining tool and exploited a CVE published six months earlier. This suggests low-cost, commodity tooling.
+**Resources:** Low  
+The actor used a public CVE and publicly available cryptocurrency mining software. This indicates low-cost commodity tooling.
 
-**Sophistication:** Low
-There was no lateral movement, no patient data access, no persistent backdoor, and no targeted reconnaissance. The behavior matches mass automated exploitation.
+**Sophistication:** Low  
+There was no lateral movement, no patient-data access, no persistent backdoor, and no targeted reconnaissance. The behavior matches automated opportunistic exploitation.
 
-**Primary Motivation:** Financial gain
-The installation of Monero mining software shows that the actor’s goal was to make money through unauthorized use of victim computing resources.
+**Primary Motivation:** Financial gain  
+The actor installed Monero mining software to profit from the victim's computing resources.
 
-**Confidence Level:** High
-Confidence is high because the report explicitly describes publicly available tooling, mass exploitation, no targeting, and cryptocurrency mining.
+**Confidence Level:** High  
+Confidence is high because the report explicitly describes public tools, mass automated exploitation, no targeting, and cryptocurrency mining.
 
 ---
 
@@ -124,67 +124,64 @@ Confidence is high because the report explicitly describes publicly available to
 
 **Actor Type:** Shadow IT
 
-**Internal/External:** Could be either
-The root cause was internal shadow IT: a biomedical engineering employee connected a personal Raspberry Pi to the medical device network without authorization. However, an external attacker later discovered the exposed device, used default credentials, and pivoted to the nurse call system. Therefore, the initiating risk was internal, while the exploitation was external.
+**Internal/External:** Could be either  
+The root cause was internal shadow IT: a biomedical engineering employee connected a personal Raspberry Pi to the medical device network without authorization. However, the actual compromise was performed by an external attacker who found the exposed device and used default credentials.
 
-**Resources:** Low
-The employee used a personal Raspberry Pi and default credentials. The external attacker only needed to discover the exposed service and log in with default credentials.
+**Resources:** Low  
+The employee used a personal Raspberry Pi, and the external attacker only needed to discover the exposed port and use default credentials.
 
-**Sophistication:** Low
-The incident resulted from poor configuration, default credentials, and unauthorized device deployment. The external exploitation did not require advanced tools or techniques.
+**Sophistication:** Low  
+The incident resulted from unauthorized device deployment, poor configuration, outdated software, and default credentials. The external exploitation did not require advanced techniques.
 
-**Primary Motivation:** Ethical motivations
-The employee had no malicious intent and claimed to be monitoring network performance for a personal project. The motivation was curiosity, learning, and perceived operational improvement rather than crime or sabotage.
+**Primary Motivation:** Ethical motivations  
+The employee had no malicious intent and claimed the device was used to monitor network performance for a personal project. The motivation was curiosity, learning, or perceived operational improvement, not sabotage or financial gain.
 
-**Confidence Level:** High
-Confidence is high for the shadow IT classification because the key enabling behavior was an unauthorized personal device connected to a sensitive medical network. The external attacker is part of the incident chain, but the actor category most directly tested by this report is shadow IT.
+**Confidence Level:** High  
+Confidence is high because the key enabling behavior was an unauthorized personal device connected to a sensitive medical network, which is a clear shadow IT scenario.
 
 ---
 
 ## Report G
 
-**Actor Type:** Could be insider threat, organized crime, or external credential compromise
+**Actor Type:** Organized crime
 
-**Internal/External:** Could be either
-The activity used a legitimate physician account, which could indicate an insider misusing access. However, the physician was on extended medical leave, out of the country, and denied involvement. This also supports the possibility of an external attacker using stolen credentials.
+**Internal/External:** External  
+The most likely scenario is an external attacker using stolen or compromised physician credentials. The physician was on extended medical leave, was out of the country, denied involvement, and the account was used during off-hours. These facts make direct physician misuse less likely.
 
-**Resources:** Medium
-The actor did not use obvious malware or advanced tooling, but the activity was sustained over six weeks and focused on high-value insurance patients. This suggests more planning than random curiosity, but not enough evidence to prove nation-state or highly resourced activity.
+**Resources:** Medium  
+The actor did not use obvious malware or custom tools, but the activity lasted six weeks and targeted 3,200 patient records. The focus on patients with high-value insurance plans suggests organized selection rather than random curiosity.
 
-**Sophistication:** Medium
-The attacker used legitimate credentials and avoided obvious ransomware, defacement, or noisy malware. The off-hours access pattern and targeted selection of high-value insurance records suggest deliberate data collection.
+**Sophistication:** Medium  
+The attacker used legitimate credentials to avoid detection, accessed records during off-hours, and selected patients who may be valuable for insurance fraud. This shows deliberate credential-based data theft.
 
-**Primary Motivation:** Data exfiltration
-The clearest observed objective was unauthorized access and download of 3,200 patient records. Because there was no ransom demand and no known dark web posting, financial gain is plausible but not proven.
+**Primary Motivation:** Financial gain  
+The concentration on patients with high-value insurance plans suggests a likely fraud, resale, or monetization motive. No ransom demand was received, so blackmail is less supported than financial gain through stolen healthcare data.
 
-**Confidence Level:** Low
-Confidence is low because the same evidence can support several hypotheses: insider misuse, stolen physician credentials used by organized crime, or another external actor quietly collecting data.
+**Confidence Level:** Medium  
+Confidence is medium because organized crime is the best single classification, but the report is intentionally ambiguous. The same activity could also fit insider misuse or another form of credential compromise if additional evidence appears.
 
 ### Ambiguity Analysis for Report G
 
-Report G is deliberately ambiguous because the observed behavior does not clearly identify the actor type.
+Report G is ambiguous because the access used a legitimate physician account. Valid credentials can hide several different actor types.
 
-**Possible actor type 1: Insider threat**
-This could be an insider if someone with access to the physician’s credentials used them intentionally. It could also involve credential sharing, a coworker misusing a known password, or someone inside the hospital using the account as cover.
+**Why organized crime is the best classification:**  
+The physician was out of the country and on medical leave, the access occurred only during off-hours, the records were unrelated to the physician's patients, and the records focused on high-value insurance plans. These facts point toward stolen credentials used for healthcare data theft and possible insurance fraud.
 
-**Possible actor type 2: Organized crime**
-This could be organized crime if the physician’s credentials were stolen through phishing, password reuse, malware, or credential markets. The focus on patients with high-value insurance plans supports a possible fraud or resale motive.
+**Other plausible actor types:**
 
-**Possible actor type 3: Nation-state or advanced actor**
-This is less likely than organized crime or insider misuse, but still possible if the records had strategic intelligence value. However, the report does not mention custom tooling, persistence, infrastructure linked to APT groups, or research data.
+- **Insider threat:** Another employee could have known or obtained the physician's credentials and used the account as cover.
+- **Unskilled attacker:** This is less likely, but possible if the credentials were obtained through a basic phishing or credential-stuffing attack.
+- **Nation-state:** This is unlikely because the target was insurance-rich patient records, not strategic research, government data, or intellectual property.
 
-**Evidence needed to distinguish the actor type:**
+**Evidence that would help distinguish the actor type:**
 
-1. Authentication logs: source IP reputation, geolocation, VPN usage, device fingerprint, MFA events, and impossible travel indicators.
-2. Endpoint evidence: whether the physician’s device was infected with malware or whether another internal workstation used the account.
-3. Account history: password reset events, failed login attempts, credential sharing, or access from unusual devices.
-4. Data destination: where the downloaded records were sent and whether the destination matches personal cloud storage, criminal infrastructure, or known threat infrastructure.
-5. User context: whether any employee had a motive or opportunity to use the physician’s account.
-6. Financial indicators: whether the records later appear in insurance fraud, dark web markets, or extortion attempts.
-7. Access pattern: whether the actor accessed only billing-rich records or also searched for other strategic or sensitive data.
-
-**Most likely classification:**
-The most likely classification is organized crime using stolen credentials, because the records were concentrated in patients with high-value insurance plans and were accessed while the physician was out of the country. However, confidence remains low without proof of credential theft, data sale, or fraud.
+1. Authentication logs showing source IP, VPN use, device fingerprint, MFA events, and geolocation.
+2. Endpoint evidence showing whether the physician's device or another internal workstation was compromised.
+3. Login history showing impossible travel, failed login attempts, or password reset events.
+4. Data destination showing whether records were sent to personal cloud storage, criminal infrastructure, or known threat infrastructure.
+5. Fraud indicators showing whether the patients later experienced insurance fraud or identity theft.
+6. Internal investigation showing whether another employee had motive, opportunity, or access to the physician's credentials.
+7. Dark web monitoring showing whether the records later appeared for sale.
 
 ---
 
@@ -192,40 +189,41 @@ The most likely classification is organized crime using stolen credentials, beca
 
 **Actor Type:** Organized crime
 
-**Internal/External:** External
+**Internal/External:** External  
 The unauthorized access came from a Tor exit node, and the sender demanded cryptocurrency in exchange for not publishing the vulnerability and stolen patient records.
 
-**Resources:** Medium
-The actor exploited a broken authentication endpoint in a patient scheduling API and extracted 2,000 records. This required technical skill, but there is no evidence of custom malware, zero-days, or nation-state resources.
+**Resources:** Medium  
+The actor exploited a broken authentication endpoint in a patient scheduling API and extracted 2,000 patient records. This required technical skill but not custom malware, zero-day exploitation, or nation-state resources.
 
-**Sophistication:** Medium
-The actor identified and exploited an authentication flaw, extracted real patient data, used Tor for anonymity, and attempted extortion. This is more capable than a basic script kiddie attack but not highly advanced.
+**Sophistication:** Medium  
+The actor identified and exploited an authentication flaw, used Tor for anonymity, exfiltrated authentic patient records, and used the data as proof for extortion.
 
-**Primary Motivation:** Blackmail
-The actor demanded $50,000 in cryptocurrency and threatened to publish both the vulnerability details and the stolen patient records. The pressure tactic is blackmail/extortion.
+**Primary Motivation:** Blackmail  
+The actor demanded $50,000 in cryptocurrency and threatened to publish the vulnerability details and stolen patient records. This is a clear blackmail/extortion scenario.
 
-**Confidence Level:** High
-Confidence is high because the cryptocurrency demand, proof of stolen records, Tor access, and publication threat clearly indicate criminal extortion.
+**Confidence Level:** High  
+Confidence is high because the cryptocurrency demand, proof of stolen data, Tor access, and publication threat clearly indicate organized criminal extortion.
 
 ---
 
 ## Summary Table
 
-| Report | Actor Type                                                            | Internal / External | Resources     | Sophistication | Primary Motivation                 | Confidence |
-| ------ | --------------------------------------------------------------------- | ------------------- | ------------- | -------------- | ---------------------------------- | ---------- |
-| A      | Nation-state                                                          | External            | High          | High           | Espionage                          | High       |
-| B      | Organized crime                                                       | External            | Medium        | Medium to High | Financial gain                     | High       |
-| C      | Hacktivist                                                            | External            | Low to Medium | Low to Medium  | Philosophical or political beliefs | High       |
-| D      | Insider threat                                                        | Internal            | Low to Medium | Medium         | Revenge                            | High       |
-| E      | Unskilled attacker                                                    | External            | Low           | Low            | Financial gain                     | High       |
-| F      | Shadow IT                                                             | Could be either     | Low           | Low            | Ethical motivations                | High       |
-| G      | Ambiguous: insider / organized crime / external credential compromise | Could be either     | Medium        | Medium         | Data exfiltration                  | Low        |
-| H      | Organized crime                                                       | External            | Medium        | Medium         | Blackmail                          | High       |
+| Report | Actor Type | Internal / External | Resources | Sophistication | Primary Motivation | Confidence |
+|---|---|---|---|---|---|---|
+| A | Nation-state | External | High | High | Espionage | High |
+| B | Organized crime | External | Medium | Medium to High | Financial gain | High |
+| C | Hacktivist | External | Low to Medium | Low to Medium | Philosophical or political beliefs | High |
+| D | Insider threat | Internal | Low to Medium | Medium | Revenge | High |
+| E | Unskilled attacker | External | Low | Low | Financial gain | High |
+| F | Shadow IT | Could be either | Low | Low | Ethical motivations | High |
+| G | Organized crime | External | Medium | Medium | Financial gain | Medium |
+| H | Organized crime | External | Medium | Medium | Blackmail | High |
+
+---
 
 ## Final Assessment
 
-The eight reports show that threat actor classification should be based on behavior rather than assumptions about identity. Some cases are clear: custom malware and long-term pharmaceutical espionage strongly indicate a nation-state actor, while ransomware and cryptocurrency demands strongly indicate organized crime.
+The reports show that threat actor classification must be based on observed behavior rather than assumptions. Reports A, B, C, D, E, F, and H have strong indicators that support clear classification.
 
-Other cases require more careful reasoning. Report F shows that a security incident can begin with non-malicious shadow IT but still be exploited by an external attacker. Report G shows why analysts must preserve uncertainty: valid credentials, off-hours access, and targeted data theft can fit insider misuse, credential compromise, or organized criminal activity.
-::: 
+Report G remains the most ambiguous case, but it still requires a primary classification. The best classification is organized crime because the access occurred through likely stolen credentials and targeted patients with high-value insurance plans, which supports a financial fraud or resale motive. The ambiguity should be preserved in the analysis, but the report should still have one main actor type.
 
